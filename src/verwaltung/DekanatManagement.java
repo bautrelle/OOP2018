@@ -20,15 +20,18 @@ public class DekanatManagement
 		initModule();
 		
 		studenten=Arrays.asList(new Student[] {new Student(34545," Schmidt","Harold"),new Student(23566,"Djuikom","Bautrelle"),new Student(17459,"Mueller","Karine"),new Student(34581,"Raki","Ali"),new Student(23756,"Schoen","Thani"),new Student(17451,"Kunold","Elisa")});
-		AusgabeStudentenListe(studenten);
-		//test.ausgabeLeistungen(test.pruefungsLeistungen);
 		//test.module=Arrays.asList(new Modul[] {new Modul(60),new Modul(30),new Modul(60),new Modul(30)});
-		List<Leistung>leistungen=Arrays.asList(new Leistung[] {new Leistung(modulMapping.get("oop"),"Bienhaus",83.4),new Leistung(modulMapping.get("DM"),"Metz",98.3),new Leistung(modulMapping.get("Physik"),"Rinn",80.3), new Leistung(modulMapping.get("GDI"),"Herzberg",100.0)});
+		List<Leistung>leistungen=Arrays.asList(new Leistung[] {new Leistung(modulMapping.get("OOP"),"Bienhaus",83.4),new Leistung(modulMapping.get("DM"),"Metz",98.3),new Leistung(modulMapping.get("Physik"),"Rinn",80.3), new Leistung(modulMapping.get("GDI"),"Herzberg",100.0)});
 		//test.listStudenten.forEach(student -> student.addLeistungen(leistungen));//lambda expression
 		for (Student student: studenten)
 		{
 			student.addLeistungen(leistungen);
 		}	
+		
+		//ausgabeStudentenListe(studenten);
+		//ausgabeLeistungen(studenten.get(0));
+		//ausgabeDurchschnittProStudent(studenten);
+		ausgabeDurchschnittProModul(studenten);
 	}
 	
 	public static void initModule()
@@ -53,7 +56,7 @@ public class DekanatManagement
 		}
 	}
 	
-	public static void AusgabeStudentenListe(List<Student> listStudenten)
+	public static void ausgabeStudentenListe(List<Student> listStudenten)
 	{
 		CSV_Writer writer = new CSV_Writer("C:\\Users\\bautrelle fotso\\Desktop\\studentenliste.csv");		
 		String liste = "";
@@ -72,20 +75,20 @@ public class DekanatManagement
 	
 		for(Leistung leist : student.getLeistungen()) 
 		{
-			zeile=zeile+"\n"+leist.toString();
+			zeile=zeile+leist.toString()+"\n";
 		}
-		writer.append(student+zeile);
+		writer.append(zeile);
 	}
 
-	public void ausgabeDurchschnittProStudent(List<Student> studenten)
+	public static void ausgabeDurchschnittProStudent(List<Student> studenten)
 	{
-		CSV_Writer writer = new CSV_Writer("durchschnittProStudent.csv");
+		CSV_Writer writer = new CSV_Writer("C:\\Users\\bautrelle fotso\\Desktop\\durchschnittProStudent.csv");
 		String erg="";
 		double summe=0;
 		int summecreditspunkte=0;
 		String antwort="";
 		int matrikel=0;
-		writer.append("Matrikelnummer;Durchschnitt(%);Creditpunkte;Durchgefallen");
+		writer.append("Matrikelnummer;Durchschnitt(%);Creditpunkte;Durchgefallen+\n");
 		
 		for (Student stud : studenten) 
 		{
@@ -107,7 +110,8 @@ public class DekanatManagement
 			erg += matrikel+";"+summe+";"+summecreditspunkte+";"+antwort+"\n";
 			summe = 0;
 			summecreditspunkte = 0;
-		}		
+		}	
+		writer.append(erg);
 	}			
 	
 	public static void ausgabeDurchschnittProModul(List<Student> studenten)
